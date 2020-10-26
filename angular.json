@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "monitoring-system-front-end"
+    }
+  },
+  "defaultProject": "monitoring-system-front-end",
+  "cli": {
+    "analytics": false
+  }
 }
