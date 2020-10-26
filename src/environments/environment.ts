@@ -2,8 +2,13 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+const BASE_URL = 'http://176.119.254.185/';
+const SERVICES_URL = BASE_URL + 'services/';
+
 export const environment = {
-  production: false
+  production: false,
+  authUrl: BASE_URL + 'auth/',
+  sensingNodeServiceApiUrl: SERVICES_URL + 'sensingnode/api/',
 };
 
 /*
