@@ -2,7 +2,7 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-const BASE_URL = 'http://176.119.254.185';
+const BASE_URL = 'http://localhost:8080';
 const SERVICES_URL = BASE_URL + '/services';
 const AUTH_URL = BASE_URL + '/auth';
 const UAA_SERVICE_API_URL = `${SERVICES_URL}/uaa`
