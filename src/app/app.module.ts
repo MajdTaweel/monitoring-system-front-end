@@ -8,12 +8,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NbThemeModule, NbLayoutModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import { HttpClientModule } from '@angular/common/http';
-import { NbAuthModule, NbPasswordAuthStrategy } from '@nebular/auth';
-
-// export function tokenGetter() {
-//   return localStorage.getItem('access_token');
-// }
+import { HttpClientModule, HttpRequest, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NbAuthJWTInterceptor, NbAuthModule, NbPasswordAuthStrategy, NB_AUTH_TOKEN_INTERCEPTOR_FILTER } from '@nebular/auth';
 
 @NgModule({
   declarations: [
@@ -30,6 +26,12 @@ import { NbAuthModule, NbPasswordAuthStrategy } from '@nebular/auth';
         NbPasswordAuthStrategy.setup({
           name: 'email',
           baseEndpoint: '',
+          validation: {
+            email: {
+              regexp: null,
+              required: true,
+            },
+          },
           login: {
             endpoint: environment.loginUrl,
             method: 'post',
@@ -50,6 +52,9 @@ import { NbAuthModule, NbPasswordAuthStrategy } from '@nebular/auth';
             endpoint: environment.resetPasswordUrl,
             method: 'post',
           },
+          token: {
+            key: 'access_token',
+          },
         }),
       ],
       forms: {},
@@ -57,15 +62,11 @@ import { NbAuthModule, NbPasswordAuthStrategy } from '@nebular/auth';
     NbLayoutModule,
     NbEvaIconsModule,
     LeafletModule,
-    // JwtModule.forRoot({
-    //   config: {
-    //     tokenGetter,
-    //     allowedDomains: environment.allowedDomains,
-    //     disallowedRoutes: environment.disallowedRoutes,
-    //   },
-    // }),
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: NbAuthJWTInterceptor, multi: true },
+    { provide: NB_AUTH_TOKEN_INTERCEPTOR_FILTER, useValue: (req: HttpRequest<any>) => environment.disallowedRoutes.includes(req.url) },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

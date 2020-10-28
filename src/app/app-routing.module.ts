@@ -44,6 +44,11 @@ const routes: Routes = [
     path: 'sensing-nodes-monitoring',
     loadChildren: () => import('./sensing-nodes/sensing-nodes.module').then(m => m.SensingNodesModule)
   },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'sensing-nodes-monitoring',
+  },
 ];
 
 @NgModule({

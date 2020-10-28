@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-const SENSING_NODES_URL = 'sensing-nodes';
+const SENSING_NODES_URL = '/sensing-nodes';
 
 @Injectable({
   providedIn: 'root'
