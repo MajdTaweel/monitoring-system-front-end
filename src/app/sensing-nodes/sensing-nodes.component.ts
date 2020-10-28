@@ -1,14 +1,16 @@
 import { SensingNodesService } from './sensing-nodes.service';
-import { Component, OnInit } from '@angular/core';
-import { LeafletControlLayersConfig } from '@asymmetrik/ngx-leaflet';
-import { circle, latLng, marker, polygon, tileLayer } from 'leaflet';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { circle, latLng, tileLayer } from 'leaflet';
+import { Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { SensingNode } from './sensing-node.model';
 
 @Component({
   selector: 'app-sensing-nodes',
   templateUrl: './sensing-nodes.component.html',
   styleUrls: ['./sensing-nodes.component.scss']
 })
-export class SensingNodesComponent implements OnInit {
+export class SensingNodesComponent implements OnInit, OnDestroy {
 
   options = {
     layers: [
@@ -18,16 +20,30 @@ export class SensingNodesComponent implements OnInit {
     center: latLng(31.891606, 35.212513)
   };
 
-  layers = [
-    circle([31.892028, 35.212642], { radius: 1 }),
-    circle([31.892009, 35.212620], { radius: 1 }),
-    circle([31.891606, 35.212110], { radius: 1 }),
-  ];
+  layers = [];
 
-  constructor(private sensingNodeService: SensingNodesService) { }
+  private sensingNodesSubscription: Subscription;
+
+
+  constructor(private sensingNodesService: SensingNodesService) { }
 
   ngOnInit(): void {
-    this.sensingNodeService.getSensingNodes().subscribe(sensingNodes => console.log(sensingNodes));
+    this.sensingNodesSubscription = this.sensingNodesService.getSensingNodes()
+      .pipe(
+        tap(
+          (sensingNodes: SensingNode[]) =>
+            this.layers = sensingNodes.map(
+              (sensingNode: SensingNode) =>
+                circle([sensingNode.latitude, sensingNode.longitude], { radius: 1 })
+            )
+        )
+      )
+      .subscribe();
   }
 
+  ngOnDestroy(): void {
+    if (this.sensingNodesSubscription) {
+      this.sensingNodesSubscription.unsubscribe();
+    }
+  }
 }

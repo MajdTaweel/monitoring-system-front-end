@@ -1,10 +1,10 @@
 export class SensingNode {
     constructor(
-        private id: number,
-        private sensingNodeType: string,
-        private status: string,
-        private latitude: number,
-        private longitude: number,
-        private battery: number,
+        public id: number,
+        public sensingNodeType: string,
+        public status: string,
+        public latitude: number,
+        public longitude: number,
+        public battery: number,
     ) { }
 }
