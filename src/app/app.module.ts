@@ -8,8 +8,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NbThemeModule, NbLayoutModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import { HttpClientModule, HttpRequest, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NbAuthJWTInterceptor, NbAuthModule, NbPasswordAuthStrategy, NB_AUTH_TOKEN_INTERCEPTOR_FILTER } from '@nebular/auth';
+import { HttpClientModule, HttpResponse, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NbAuthModule, NbAuthOAuth2Token, NbPasswordAuthStrategy, NbPasswordAuthStrategyOptions } from '@nebular/auth';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AuthInterceptor } from './auth/auth.interceptor';
+
+function oAuth2TokenGetter(module: string, res: HttpResponse<Object>, options: NbPasswordAuthStrategyOptions) {
+  return res.body;
+}
 
 @NgModule({
   declarations: [
@@ -26,12 +33,6 @@ import { NbAuthJWTInterceptor, NbAuthModule, NbPasswordAuthStrategy, NB_AUTH_TOK
         NbPasswordAuthStrategy.setup({
           name: 'email',
           baseEndpoint: '',
-          validation: {
-            email: {
-              regexp: null,
-              required: true,
-            },
-          },
           login: {
             endpoint: environment.loginUrl,
             method: 'post',
@@ -53,7 +54,9 @@ import { NbAuthJWTInterceptor, NbAuthModule, NbPasswordAuthStrategy, NB_AUTH_TOK
             method: 'post',
           },
           token: {
-            key: 'access_token',
+            class: NbAuthOAuth2Token,
+            key: 'token',
+            getter: oAuth2TokenGetter,
           },
         }),
       ],
@@ -62,11 +65,12 @@ import { NbAuthJWTInterceptor, NbAuthModule, NbPasswordAuthStrategy, NB_AUTH_TOK
     NbLayoutModule,
     NbEvaIconsModule,
     LeafletModule,
+    NgbModule,
+    FontAwesomeModule,
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: NbAuthJWTInterceptor, multi: true },
-    { provide: NB_AUTH_TOKEN_INTERCEPTOR_FILTER, useValue: (req: HttpRequest<any>) => environment.disallowedRoutes.includes(req.url) },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

@@ -13,4 +13,5 @@ export const environment = {
   resetPasswordUrl: `${UAA_SERVICE_API_URL}/account/reset-password/init`,
   sensingNodeServiceApiUrl: SERVICES_URL + '/sensingnode/api',
   disallowedRoutes: [`${AUTH_URL}/login`, `${UAA_SERVICE_API_URL}/register`],
+  xhrWithCredentials: true,
 };
