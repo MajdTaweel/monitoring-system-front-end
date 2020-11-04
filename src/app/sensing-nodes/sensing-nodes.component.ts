@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Control, divIcon, DomUtil, latLng, Map, Marker, marker, tileLayer } from 'leaflet';
 import { of, Subscription } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { Availability, SensingNode, Status } from './sensing-node.model';
+import { Availability, SensingNode, SensingNodesStats, SensingNodeType, Status } from './sensing-node.model';
 
 @Component({
   selector: 'app-sensing-nodes',
@@ -28,11 +28,15 @@ export class SensingNodesComponent implements OnInit, OnDestroy {
 
   private unAvailableIcon = divIcon({ className: 'fas fa-parking text-danger fa-3x' });
 
+  private pollutionIcon = divIcon({ className: 'fas fa-smog text-primary fa-3x' });
+
   private locationArrowIcon = divIcon({ className: 'fas fa-location-arrow text-primary fa-3x' });
 
   private locationMarker = marker([0, 0], { icon: this.locationArrowIcon });
 
   private heading = 0;
+
+  private infoDiv: HTMLElement;
 
   private sensingNodesSubscription: Subscription;
 
@@ -45,6 +49,7 @@ export class SensingNodesComponent implements OnInit, OnDestroy {
   onMapReady(map: Map): void {
     this.setViewToCurrentLocation(map).then(_ => this.locationMarker.addTo(map));
     this.watchPosition();
+    this.addInfo(map);
     this.addLegend(map);
   }
 
@@ -62,6 +67,7 @@ export class SensingNodesComponent implements OnInit, OnDestroy {
     this.sensingNodesSubscription = this.sensingNodesService.getSensingNodes()
       .pipe(
         tap((sensingNodes: SensingNode[]) => {
+          this.updateInfo(sensingNodes);
           this.layers = sensingNodes
             // TODO: should be removed as the db must only contain valid lat lng values
             // !REMOVE START
@@ -83,13 +89,17 @@ export class SensingNodesComponent implements OnInit, OnDestroy {
   private getNodeMarker(sensingNode: SensingNode): Marker {
     const icon = sensingNode.status === Status.ONLINE
       ? (
-        sensingNode.availability === Availability.AVAILABLE
-          ? this.availableIcon
-          : this.unAvailableIcon
+        sensingNode.sensingNodeType === SensingNodeType.MAGNETOMETER
+          ? (
+            sensingNode.availability === Availability.AVAILABLE
+              ? this.availableIcon
+              : this.unAvailableIcon
+          )
+          : this.pollutionIcon
       )
       : this.offlineIcon;
     return marker([sensingNode.latitude, sensingNode.longitude], { icon })
-      .bindPopup(`<b>Latitude: </b>${sensingNode.latitude}<br/><b>Longitude: </b>${sensingNode.longitude}<br/><b>Battery: </b>${sensingNode.battery}%<br/><button>View Readings</button>`);
+      .bindPopup(`<b>Node Type: </b>${sensingNode.sensingNodeType}<br/><b>Latitude: </b>${sensingNode.latitude}<br/><b>Longitude: </b>${sensingNode.longitude}<br/><b>Battery: </b>${sensingNode.battery}%<br/><button>View Readings</button>`);
   }
 
   private async setViewToCurrentLocation(map: Map): Promise<void> {
@@ -150,5 +160,37 @@ export class SensingNodesComponent implements OnInit, OnDestroy {
     };
 
     legend.addTo(map);
+  }
+
+  private addInfo(map: Map) {
+    const info = new (Control.extend({ options: { position: 'bottomleft' } }));
+
+    info.onAdd = _ => {
+      this.infoDiv = DomUtil.create('div', 'info');
+      this.infoDiv.innerHTML += '<h6>Info</h6>';
+      return this.infoDiv;
+    };
+
+    info.addTo(map);
+  }
+
+  private updateInfo(sensingNodes: SensingNode[]): void {
+    const stats = this.extractSensingNodesStats(sensingNodes);
+    this.infoDiv.innerHTML = '<h6>Info</h6>';
+    this.infoDiv.innerHTML += `<b>Active Parking Spot Nodes: </b>${stats.magnetometerActiveNum}<br/>`;
+    this.infoDiv.innerHTML += `<b>Inactive Parking Spot Nodes: </b>${stats.magnetometerNum - stats.magnetometerActiveNum}<br/>`;
+    this.infoDiv.innerHTML += `<b>Active Pollution Nodes: </b>${stats.pollutionActiveNum}<br/>`;
+    this.infoDiv.innerHTML += `<b>Inactive Pollution Nodes: </b>${stats.pollutionNum - stats.pollutionActiveNum}<br/>`;
+  }
+
+  private extractSensingNodesStats(sensingNodes: SensingNode[]): SensingNodesStats {
+    const stats = new SensingNodesStats();
+    const magnetometerNodes = sensingNodes.filter(sensingNode => sensingNode.sensingNodeType === SensingNodeType.MAGNETOMETER);
+    const pollutionNodes = sensingNodes.filter(sensingNode => sensingNode.sensingNodeType === SensingNodeType.POLLUTION);
+    stats.magnetometerNum = magnetometerNodes.length;
+    stats.pollutionNum = pollutionNodes.length;
+    stats.magnetometerActiveNum = magnetometerNodes.filter(magnetometerNode => magnetometerNode.status === Status.ONLINE).length;
+    stats.pollutionActiveNum = pollutionNodes.filter(pollutionNode => pollutionNode.status === Status.ONLINE).length;
+    return stats;
   }
 }

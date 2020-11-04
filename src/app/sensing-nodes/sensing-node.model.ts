@@ -42,3 +42,10 @@ export enum Availability {
     AVAILABLE = 'AVAILABLE',
     UNAVAILABLE = 'UNAVAILABLE'
 }
+
+export class SensingNodesStats {
+    magnetometerNum: number;
+    pollutionNum: number;
+    magnetometerActiveNum: number;
+    pollutionActiveNum: number;
+}
