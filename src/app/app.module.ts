@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NbThemeModule, NbLayoutModule, NbMenuModule, NbIconModule, NbButtonModule, NbContextMenuModule } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule, NbMenuModule, NbIconModule, NbButtonModule, NbContextMenuModule, NbCardModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -17,11 +17,13 @@ import { NbRoleProvider, NbSecurityModule } from '@nebular/security';
 import { RoleProvider } from './auth/role.provider';
 import { Authority, LOGIN_ENDPOINT, LOGOUT_ENDPOINT, oAuth2TokenGetter } from './auth/auth.model';
 import { REGISTER_ENDPOINT, RESET_PASSWORD_FINISH_ENDPOINT, RESET_PASSWORD_INIT_ENDPOINT } from './account/account.model';
+import { AuthComponent } from './auth/auth.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    AuthComponent
   ],
   imports: [
     BrowserModule,
@@ -81,11 +83,9 @@ import { REGISTER_ENDPOINT, RESET_PASSWORD_FINISH_ENDPOINT, RESET_PASSWORD_INIT_
         [Authority.USER]: {
           view: ['account'],
         },
-        [Authority.ADMIN]: {
-          parent: Authority.USER,
-        },
       },
     }),
+    NbCardModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

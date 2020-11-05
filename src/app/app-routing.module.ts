@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import {
-  NbAuthComponent,
   NbLoginComponent,
   NbRegisterComponent,
   NbLogoutComponent,
@@ -10,11 +9,12 @@ import {
 } from '@nebular/auth';
 import { AnonymousGuard } from './guards/anonymous/anonymous.guard';
 import { AuthGuard } from './guards/auth/auth.guard';
+import { AuthComponent } from './auth/auth.component';
 
 const routes: Routes = [
   {
     path: 'auth',
-    component: NbAuthComponent,
+    component: AuthComponent,
     children: [
       {
         path: '',

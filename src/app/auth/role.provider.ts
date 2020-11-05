@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { NbRoleProvider } from '@nebular/security';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Account } from '../account/account.model';
 import { AccountService } from '../account/account.service';
 import { Authority } from './auth.model';
 
@@ -16,7 +15,7 @@ export class RoleProvider implements NbRoleProvider {
   getRole(): Observable<string | string[]> {
     return this.accountService.getAccount()
       .pipe(
-        map((account: Account) => account?.authorities || Authority.ANONYMOUS),
+        map(account => account?.authorities || Authority.ANONYMOUS),
       );
   }
 }

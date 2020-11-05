@@ -1,44 +1,54 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NbAccessChecker } from '@nebular/security';
 import { NbMenuItem, NbThemeService } from '@nebular/theme';
-import { AccountService } from 'src/app/account/account.service';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
-  menuItems: NbMenuItem[] = [
-    {
-      title: 'Sensors Monitoring',
-      link: '/sensing-nodes-monitoring',
-    },
-  ];
-
-  anonymousMenuItems: NbMenuItem[] = [
-    {
-      title: 'Login',
-      link: '/auth/login',
-    },
-    {
-      title: 'Register',
-      link: '/auth/register',
-    },
-  ];
+  themeIcon: string;
 
   contextMenuItems: NbMenuItem[] = [
     {
       title: 'Logout',
-      link: '/auth/logout'
+      link: 'auth/logout'
     },
   ];
 
-  themeIcon: string;
+  private permittedMenuItems: NbMenuItem[] = [
+    {
+      title: 'Sensors Monitoring',
+      link: 'sensing-nodes-monitoring',
+    },
+  ];
 
-  constructor(public themeService: NbThemeService, private accountService: AccountService) {
-    this.themeService.onThemeChange().subscribe(currentTheme => this.themeIcon = currentTheme?.name === 'default' ? 'moon-outline' : 'moon');
-    this.accountService.getAccount().subscribe(account => console.log(account));
+  private authMenuItems: NbMenuItem[] = [
+    {
+      title: 'Login',
+      link: 'auth/login',
+    },
+    {
+      title: 'Register',
+      link: 'auth/register',
+    },
+  ];
+
+  private menuItems = new BehaviorSubject<NbMenuItem[]>([]);
+
+  private subscriptions = new Subscription();
+
+  constructor(private themeService: NbThemeService, private accessChecker: NbAccessChecker) {
+    const sub1 = this.themeService.onThemeChange()
+      .subscribe(currentTheme => this.themeIcon = currentTheme?.name === 'default' ? 'moon-outline' : 'moon');
+    const sub2 = this.accessChecker.isGranted('view', 'auth')
+      .subscribe(isGranted => this.menuItems.next(isGranted ? [...this.permittedMenuItems, ...this.authMenuItems] : [...this.permittedMenuItems]));
+    this.subscriptions.add(sub1);
+    this.subscriptions.add(sub2);
   }
 
   ngOnInit(): void {
@@ -52,5 +62,13 @@ export class HeaderComponent implements OnInit {
 
   getThemeButtonIcon(): string {
     return this.themeService.currentTheme === 'default' ? 'moon-outline' : 'moon';
+  }
+
+  getMenuItems(): Observable<NbMenuItem[]> {
+    return this.menuItems.asObservable();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }
