@@ -5,10 +5,11 @@
 const BASE_URL = 'http://localhost:8080';
 const SERVICES_URL = BASE_URL + '/services';
 const AUTH_URL = BASE_URL + '/auth';
-const UAA_SERVICE_API_URL = `${SERVICES_URL}/uaa`
+const UAA_SERVICE_API_URL = `${SERVICES_URL}/uaa/api`
 
 export const environment = {
   production: false,
+  // TODO: RM all urls except for baseUrl
   baseUrl: BASE_URL,
   loginUrl: AUTH_URL + '/login',
   logoutUrl: AUTH_URL + '/logout',
@@ -16,8 +17,8 @@ export const environment = {
   changePasswordUrl: `${UAA_SERVICE_API_URL}/account/change-password`,
   resetPasswordUrl: `${UAA_SERVICE_API_URL}/account/reset-password/init`,
   sensingNodeServiceApiUrl: SERVICES_URL + '/sensingnode/api',
-  disallowedRoutes: [`${AUTH_URL}/login`, `${UAA_SERVICE_API_URL}/register`],
   xhrWithCredentials: true,
+  uaaServiceApiUrl: UAA_SERVICE_API_URL,
 };
 
 /*

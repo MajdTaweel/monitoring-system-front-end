@@ -5,7 +5,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NbThemeModule, NbLayoutModule } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule, NbMenuModule, NbIconModule, NbButtonModule, NbContextMenuModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { HttpClientModule, HttpResponse, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -13,6 +13,8 @@ import { NbAuthModule, NbAuthOAuth2Token, NbPasswordAuthStrategy, NbPasswordAuth
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { HeaderComponent } from './shared/header/header.component';
+import { NbSecurityModule } from '@nebular/security';
 
 function oAuth2TokenGetter(module: string, res: HttpResponse<Object>, options: NbPasswordAuthStrategyOptions) {
   return res.body;
@@ -20,7 +22,8 @@ function oAuth2TokenGetter(module: string, res: HttpResponse<Object>, options: N
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -67,9 +70,16 @@ function oAuth2TokenGetter(module: string, res: HttpResponse<Object>, options: N
     LeafletModule,
     NgbModule,
     FontAwesomeModule,
+    NbMenuModule.forRoot(),
+    NbButtonModule,
+    NbEvaIconsModule,
+    NbIconModule,
+    NbContextMenuModule,
+    NbSecurityModule.forRoot(),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    // { provide: NbRoleProvider, useClass: RoleProvider },
   ],
   bootstrap: [AppComponent],
 })
