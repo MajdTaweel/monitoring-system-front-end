@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Control, divIcon, DomUtil, latLng, Map, Marker, marker, tileLayer } from 'leaflet';
 import { of, Subscription } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { Availability, SensingNode, SensingNodesStats, SensingNodeType, Status } from './sensing-node.model';
+import { Availability, DEFAULT_BOUNDS, DEFAULT_LATITUDE, DEFAULT_LONGITUDE, SensingNode, SensingNodesStats, SensingNodeType, Status } from './sensing-node.model';
 
 @Component({
   selector: 'app-sensing-nodes',
@@ -14,10 +14,19 @@ export class SensingNodesComponent implements OnInit, OnDestroy {
 
   options = {
     layers: [
-      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 22, maxNativeZoom: 19, attribution: '...' })
+      tileLayer(
+        'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {
+          maxZoom: 22,
+          maxNativeZoom: 19,
+          // attribution: '...',
+          minZoom: 8,
+          bounds: DEFAULT_BOUNDS,
+        }
+      )
     ],
-    zoom: 0,
-    center: latLng(0, 0)
+    zoom: 8,
+    center: latLng(DEFAULT_LATITUDE, DEFAULT_LONGITUDE)
   };
 
   layers = [];
@@ -32,7 +41,7 @@ export class SensingNodesComponent implements OnInit, OnDestroy {
 
   private locationArrowIcon = divIcon({ className: 'fas fa-location-arrow text-primary fa-3x' });
 
-  private locationMarker = marker([0, 0], { icon: this.locationArrowIcon });
+  private locationMarker = marker([DEFAULT_LATITUDE, DEFAULT_LONGITUDE], { icon: this.locationArrowIcon });
 
   private heading = 0;
 
@@ -99,7 +108,7 @@ export class SensingNodesComponent implements OnInit, OnDestroy {
       )
       : this.offlineIcon;
     return marker([sensingNode.latitude, sensingNode.longitude], { icon })
-      .bindPopup(`<b>Node Type: </b>${sensingNode.sensingNodeType}<br/><b>Latitude: </b>${sensingNode.latitude}<br/><b>Longitude: </b>${sensingNode.longitude}<br/><b>Battery: </b>${sensingNode.battery}%<br/><button>View Readings</button>`);
+      .bindPopup(`<b>Node Type: </b>${sensingNode.sensingNodeType}<br/><b>Latitude: </b>${sensingNode.latitude}<br/><b>Longitude: </b>${sensingNode.longitude}<br/><b>Battery: </b>${sensingNode.battery}%<br/><button class="btn btn-info">View Readings</button>`);
   }
 
   private async setViewToCurrentLocation(map: Map): Promise<void> {
