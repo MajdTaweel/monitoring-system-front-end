@@ -1,8 +1,8 @@
 export enum Authority {
-    ANONYMOUS = 'ROLE_ANONYMOUS',
     ADMIN = 'ROLE_ADMIN',
+    SENSING_NODE = 'ROLE_SENSING_NODE',
     USER = 'ROLE_USER',
-    SENSING_NODE = 'ROLE_SENSING_NODE'
+    ANONYMOUS = 'ROLE_ANONYMOUS'
 }
 
-export const AUTHORITIES = [Authority.ANONYMOUS, Authority.USER, Authority.ADMIN, Authority.SENSING_NODE];
+export const AUTHORITIES = [Authority.ADMIN, Authority.SENSING_NODE, Authority.USER, Authority.ANONYMOUS];

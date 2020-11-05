@@ -1,4 +1,4 @@
-export class AbstractAuditingEntity {
+export abstract class AbstractAuditingEntity {
     createdBy: string;
     createdDate: Date;
     lastModifiedBy: string;

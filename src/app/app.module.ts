@@ -14,7 +14,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { HeaderComponent } from './shared/header/header.component';
-import { NbSecurityModule } from '@nebular/security';
+import { NbRoleProvider, NbSecurityModule } from '@nebular/security';
+import { RoleProvider } from './auth/role.provider';
 
 function oAuth2TokenGetter(module: string, res: HttpResponse<Object>, options: NbPasswordAuthStrategyOptions) {
   return res.body;
@@ -79,7 +80,7 @@ function oAuth2TokenGetter(module: string, res: HttpResponse<Object>, options: N
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    // { provide: NbRoleProvider, useClass: RoleProvider },
+    { provide: NbRoleProvider, useClass: RoleProvider },
   ],
   bootstrap: [AppComponent],
 })
