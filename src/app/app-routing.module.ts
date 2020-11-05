@@ -8,6 +8,7 @@ import {
   NbRequestPasswordComponent,
   NbResetPasswordComponent,
 } from '@nebular/auth';
+import { AnonymousGuard } from './guards/anonymous/anonymous.guard';
 
 const routes: Routes = [
   {
@@ -39,10 +40,11 @@ const routes: Routes = [
         component: NbResetPasswordComponent,
       },
     ],
+    canActivate: [AnonymousGuard]
   },
   {
     path: 'sensing-nodes-monitoring',
-    loadChildren: () => import('./sensing-nodes/sensing-nodes.module').then(m => m.SensingNodesModule)
+    loadChildren: () => import('./sensing-nodes/sensing-nodes.module').then(m => m.SensingNodesModule),
   },
   {
     path: '',

@@ -1,25 +1,18 @@
-// import {Injectable} from '@angular/core';
-// import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
-// import {Observable} from 'rxjs';
-// import {map} from 'rxjs/operators';
-// import {Role} from '../../models/user.model';
-// import {UserService} from '../../services/user/user.service';
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { NbAuthService } from '@nebular/auth';
+import { Observable } from 'rxjs';
 
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class AnonymousGuard implements CanActivate {
+@Injectable({
+    providedIn: 'root'
+})
+export class AnonymousGuard implements CanActivate {
 
-//   constructor(private userService: UserService, private router: Router) {
-//   }
+    constructor(private authService: NbAuthService) { }
 
-//   canActivate(
-//     next: ActivatedRouteSnapshot,
-//     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-//     return this.userService.isUserInitialized.pipe(map(_ => {
-//       return this.userService.hasAnyAuthority(Role.ANONYMOUS.toString())
-//         ? true
-//         : this.router.createUrlTree(['/']);
-//     }));
-//   }
-// }
+    canActivate(
+        next: ActivatedRouteSnapshot,
+        state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+        return !this.authService.isAuthenticated();
+    }
+}
