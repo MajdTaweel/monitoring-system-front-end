@@ -1,3 +1,5 @@
+import { environment } from 'src/environments/environment';
+
 export class SensingNode {
     constructor(
         public id: number,
@@ -49,3 +51,7 @@ export class SensingNodesStats {
     magnetometerActiveNum: number;
     pollutionActiveNum: number;
 }
+
+const SENSING_NODE_API_URL = `${environment.baseUrl}/services/sensingnode/api`;
+
+export const SENSING_NODES_ENDPOINT = `${SENSING_NODE_API_URL}/sensing-nodes`;

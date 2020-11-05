@@ -1,4 +1,3 @@
-import { environment } from './../environments/environment';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -8,19 +7,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NbThemeModule, NbLayoutModule, NbMenuModule, NbIconModule, NbButtonModule, NbContextMenuModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import { HttpClientModule, HttpResponse, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NbAuthModule, NbAuthOAuth2Token, NbPasswordAuthStrategy, NbPasswordAuthStrategyOptions } from '@nebular/auth';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NbAuthModule, NbAuthOAuth2Token, NbPasswordAuthStrategy } from '@nebular/auth';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { HeaderComponent } from './shared/header/header.component';
 import { NbRoleProvider, NbSecurityModule } from '@nebular/security';
 import { RoleProvider } from './auth/role.provider';
-import { Authority } from './auth/auth.model';
-
-function oAuth2TokenGetter(module: string, res: HttpResponse<Object>, options: NbPasswordAuthStrategyOptions) {
-  return res.body;
-}
+import { Authority, LOGIN_ENDPOINT, LOGOUT_ENDPOINT, oAuth2TokenGetter } from './auth/auth.model';
+import { REGISTER_ENDPOINT, RESET_PASSWORD_FINISH_ENDPOINT, RESET_PASSWORD_INIT_ENDPOINT } from './account/account.model';
 
 @NgModule({
   declarations: [
@@ -39,23 +35,23 @@ function oAuth2TokenGetter(module: string, res: HttpResponse<Object>, options: N
           name: 'email',
           baseEndpoint: '',
           login: {
-            endpoint: environment.loginUrl,
+            endpoint: LOGIN_ENDPOINT,
             method: 'post',
           },
           register: {
-            endpoint: environment.registerUrl,
+            endpoint: REGISTER_ENDPOINT,
             method: 'post',
           },
           logout: {
-            endpoint: environment.logoutUrl,
+            endpoint: LOGOUT_ENDPOINT,
             method: 'post',
           },
           requestPass: {
-            endpoint: environment.changePasswordUrl,
+            endpoint: RESET_PASSWORD_INIT_ENDPOINT,
             method: 'post',
           },
           resetPass: {
-            endpoint: environment.resetPasswordUrl,
+            endpoint: RESET_PASSWORD_FINISH_ENDPOINT,
             method: 'post',
           },
           token: {
