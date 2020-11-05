@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { Account, ACCOUNT_ENDPOINT } from './account.model';
 
 @Injectable({
@@ -15,8 +15,10 @@ export class AccountService {
   getAccount(): Observable<Account> {
     return this.authService.onTokenChange()
       .pipe(
-        switchMap((token: NbAuthJWTToken) => {
-          return token.isValid() ? this.http.get<Account>(ACCOUNT_ENDPOINT) : of(null);
+        switchMap((token: NbAuthJWTToken) => this.http.get<Account>(ACCOUNT_ENDPOINT)),
+        catchError(error => {
+          console.log(error);
+          return of(null);
         }),
       );
   }

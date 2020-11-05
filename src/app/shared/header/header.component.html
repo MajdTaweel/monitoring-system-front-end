@@ -4,8 +4,8 @@
     </div>
     <div class="d-flex justify-content-between">
         <nb-menu [items]="menuItems" class="nb-menu-horizontal"></nb-menu>
-        <nb-menu [items]="anonymousMenuItems" class="nb-menu-horizontal"></nb-menu>
-        <button nbButton [nbContextMenu]="contextMenuItems">Account</button>
+        <nb-menu [items]="anonymousMenuItems" class="nb-menu-horizontal" *nbIsGranted="['view', 'auth']"></nb-menu>
+        <button nbButton [nbContextMenu]="contextMenuItems" *nbIsGranted="['view', 'account']">Account</button>
         <div class="ml-1 mr-1"></div>
         <button nbButton ghost (click)="toggleDarkMode()">
             <nb-icon [icon]="themeIcon" [options]="{ animation: { type: 'pulse' } }"></nb-icon>

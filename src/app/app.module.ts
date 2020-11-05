@@ -16,6 +16,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { HeaderComponent } from './shared/header/header.component';
 import { NbRoleProvider, NbSecurityModule } from '@nebular/security';
 import { RoleProvider } from './auth/role.provider';
+import { Authority } from './auth/auth.model';
 
 function oAuth2TokenGetter(module: string, res: HttpResponse<Object>, options: NbPasswordAuthStrategyOptions) {
   return res.body;
@@ -76,7 +77,19 @@ function oAuth2TokenGetter(module: string, res: HttpResponse<Object>, options: N
     NbEvaIconsModule,
     NbIconModule,
     NbContextMenuModule,
-    NbSecurityModule.forRoot(),
+    NbSecurityModule.forRoot({
+      accessControl: {
+        [Authority.ANONYMOUS]: {
+          view: ['auth'],
+        },
+        [Authority.USER]: {
+          view: ['account'],
+        },
+        [Authority.ADMIN]: {
+          parent: Authority.USER,
+        },
+      },
+    }),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
