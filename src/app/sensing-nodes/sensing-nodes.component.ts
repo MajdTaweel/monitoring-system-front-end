@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Control, divIcon, DomUtil, latLng, Map, Marker, marker, tileLayer } from 'leaflet';
 import { of, Subscription } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { Availability, DEFAULT_BOUNDS, DEFAULT_LATITUDE, DEFAULT_LONGITUDE, SensingNode, SensingNodesStats, SensingNodeType, Status } from './sensing-node.model';
+import { DEFAULT_BOUNDS, DEFAULT_LATITUDE, DEFAULT_LONGITUDE, SensingNode, SensingNodesStats, SensingNodeType, Status } from './sensing-node.model';
 
 @Component({
   selector: 'app-sensing-nodes',
@@ -100,7 +100,7 @@ export class SensingNodesComponent implements OnInit, OnDestroy {
       ? (
         sensingNode.sensingNodeType === SensingNodeType.MAGNETOMETER
           ? (
-            sensingNode.availability === Availability.AVAILABLE
+            sensingNode.isAvailable
               ? this.availableIcon
               : this.unAvailableIcon
           )

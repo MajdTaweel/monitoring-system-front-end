@@ -9,7 +9,7 @@ export class SensingNode {
         public latitude: number,
         public longitude: number,
         public battery: number,
-        public availability: Availability,
+        public isAvailable: boolean,
     ) { }
 }
 
@@ -39,11 +39,6 @@ export enum SensingNodeType {
 export enum Status {
     ONLINE = 'ONLINE',
     OFFLINE = 'OFFLINE'
-}
-
-export enum Availability {
-    AVAILABLE = 'AVAILABLE',
-    UNAVAILABLE = 'UNAVAILABLE'
 }
 
 export class SensingNodesStats {
