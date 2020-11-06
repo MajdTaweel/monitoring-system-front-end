@@ -1,4 +1,5 @@
-<div>
-    <div style="height: 500px;" leaflet [leafletOptions]="options" [leafletLayers]="layers"
-        (leafletMapReady)="onMapReady($event)" (leafletZoomChange)="onZoomChange()"></div>
-</div>
+<nb-card>
+    <nb-card-body>
+        <nb-route-tabset [fullWidth]="true" [tabs]="tabs"></nb-route-tabset>
+    </nb-card-body>
+</nb-card>

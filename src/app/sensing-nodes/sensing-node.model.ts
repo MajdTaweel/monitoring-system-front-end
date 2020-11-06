@@ -9,7 +9,7 @@ export class SensingNode {
         public latitude: number,
         public longitude: number,
         public battery: number,
-        public isAvailable: boolean,
+        public availability: boolean,
     ) { }
 }
 

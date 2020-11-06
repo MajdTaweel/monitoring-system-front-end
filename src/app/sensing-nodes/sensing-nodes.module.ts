@@ -4,14 +4,27 @@ import { CommonModule } from '@angular/common';
 
 import { SensingNodesRoutingModule } from './sensing-nodes-routing.module';
 import { SensingNodesComponent } from './sensing-nodes.component';
-
+import { SensingNodesTableComponent } from './sensing-nodes-table/sensing-nodes-table.component';
+import { SensingNodesMapComponent } from './sensing-nodes-map/sensing-nodes-map.component';
+import { NbCardModule, NbRouteTabsetModule, NbTabsetModule } from '@nebular/theme';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
-  declarations: [SensingNodesComponent],
+  declarations: [SensingNodesComponent, SensingNodesTableComponent, SensingNodesMapComponent],
   imports: [
     CommonModule,
     SensingNodesRoutingModule,
     LeafletModule,
+    NbCardModule,
+    NbTabsetModule,
+    MatTableModule,
+    MatPaginatorModule,
+    NbRouteTabsetModule,
+    MatMenuModule,
+    MatDialogModule,
   ]
 })
 export class SensingNodesModule { }
