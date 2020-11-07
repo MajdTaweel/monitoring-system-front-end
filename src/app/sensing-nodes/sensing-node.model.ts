@@ -2,33 +2,13 @@ import { LatLngBoundsExpression } from 'leaflet';
 import { environment } from 'src/environments/environment';
 
 export class SensingNode {
-    constructor(
-        public id: number,
-        public sensingNodeType: SensingNodeType,
-        public status: Status,
-        public latitude: number,
-        public longitude: number,
-        public battery: number,
-        public availability: boolean,
-    ) { }
-}
-
-export class MagnetometerReadings {
-    constructor(
-        public id: number,
-        public x: number,
-        public y: number,
-        public z: number,
-        public rms: number,
-    ) { }
-}
-
-export class PollutionReadings {
-    constructor(
-        public id: number,
-        public air: number,
-        public sound: number,
-    ) { }
+    id: number;
+    sensingNodeType: SensingNodeType;
+    status: Status;
+    latitude: number;
+    longitude: number;
+    battery: number;
+    availability: boolean;
 }
 
 export enum SensingNodeType {
@@ -48,7 +28,7 @@ export class SensingNodesStats {
     pollutionActiveNum: number;
 }
 
-const SENSING_NODE_API_URL = `${environment.baseUrl}/services/sensingnode/api`;
+export const SENSING_NODE_API_URL = `${environment.baseUrl}/services/sensingnode/api`;
 
 export const SENSING_NODES_ENDPOINT = `${SENSING_NODE_API_URL}/sensing-nodes`;
 

@@ -17,7 +17,12 @@ const routes: Routes = [
       {
         path: 'table',
         component: SensingNodesTableComponent,
-      }
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'map',
+      },
     ],
   },
 ];

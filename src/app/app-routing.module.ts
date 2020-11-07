@@ -53,6 +53,10 @@ const routes: Routes = [
     loadChildren: () => import('./sensing-nodes/sensing-nodes.module').then(m => m.SensingNodesModule),
   },
   {
+    path: 'readings',
+    loadChildren: () => import('./readings/readings.module').then(m => m.ReadingsModule),
+  },
+  {
     path: '',
     pathMatch: 'full',
     redirectTo: 'sensing-nodes-monitoring',

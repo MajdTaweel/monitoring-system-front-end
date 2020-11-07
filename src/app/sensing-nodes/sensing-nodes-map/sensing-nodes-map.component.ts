@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { Control, divIcon, DomUtil, latLng, LeafletEvent, Map, Marker, marker, tileLayer } from 'leaflet';
+import { Control, divIcon, DomUtil, latLng, Map, Marker, marker, tileLayer } from 'leaflet';
 import { of, Subscription } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { DEFAULT_BOUNDS, DEFAULT_LATITUDE, DEFAULT_LONGITUDE, SensingNode, SensingNodesStats, SensingNodeType, Status } from '../sensing-node.model';
@@ -100,7 +100,7 @@ export class SensingNodesMapComponent implements OnInit, OnDestroy {
       .subscribe();
   }
 
-  private getNodeMarker(sensingNode: SensingNode): { id: number; marker: Marker; } {
+  private getNodeMarker(sensingNode: SensingNode): { id: number; type: SensingNodeType; marker: Marker; } {
     const icon = sensingNode.status === Status.ONLINE
       ? (
         sensingNode.sensingNodeType === SensingNodeType.MAGNETOMETER
@@ -117,7 +117,7 @@ export class SensingNodesMapComponent implements OnInit, OnDestroy {
     nodeMarker.addEventListener('contextmenu', this.showContextMenu.bind(this));
     nodeMarker.addEventListener('touchstart', this.onTouchStart.bind(this));
     nodeMarker.addEventListener('touchend', this.onTouchEnd.bind(this))
-    return { id: sensingNode.id, marker: nodeMarker };
+    return { id: sensingNode.id, type: sensingNode.sensingNodeType, marker: nodeMarker };
   }
 
   private async setViewToCurrentLocation(map: Map): Promise<void> {

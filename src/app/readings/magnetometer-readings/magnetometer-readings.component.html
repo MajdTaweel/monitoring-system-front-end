@@ -1,0 +1,34 @@
+<!-- <div class="mat-elevation-z8"> -->
+<div class="match-theme">
+    <table mat-table [dataSource]="dataSource" class="w-100">
+
+        <!-- X Column -->
+        <ng-container matColumnDef="x">
+            <th mat-header-cell *matHeaderCellDef> X </th>
+            <td mat-cell *matCellDef="let element"> {{ element.x }} </td>
+        </ng-container>
+
+        <!-- Y Column -->
+        <ng-container matColumnDef="y">
+            <th mat-header-cell *matHeaderCellDef> Y </th>
+            <td mat-cell *matCellDef="let element"> {{ element.y }} </td>
+        </ng-container>
+
+        <!-- Z Column -->
+        <ng-container matColumnDef="z">
+            <th mat-header-cell *matHeaderCellDef> Z </th>
+            <td mat-cell *matCellDef="let element"> {{ element.z }} </td>
+        </ng-container>
+
+        <!-- RMS Column -->
+        <ng-container matColumnDef="rms">
+            <th mat-header-cell *matHeaderCellDef> RMS </th>
+            <td mat-cell *matCellDef="let element"> {{ element.rms }} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>

@@ -2,10 +2,11 @@
     <div style="height: 500px;" leaflet [leafletOptions]="options" (leafletMapReady)="onMapReady($event)"
         (leafletZoomChange)="onZoomChange()">
         <div *ngFor="let layer of layers" [leafletLayer]="layer.marker" [matMenuTriggerFor]="menu"
-            [matMenuTriggerData]="{sensingNodeId: layer.id}"></div>
+            [matMenuTriggerData]="{sensingNodeId: layer.id, sensingNodeType: layer.type}"></div>
         <mat-menu #menu="matMenu">
-            <ng-template matMenuContent let-sensingNodeId="sensingNodeId">
-                <button mat-menu-item>View Readings</button>
+            <ng-template matMenuContent let-sensingNodeId="sensingNodeId" let-sensingNodeType="sensingNodeType">
+                <button [routerLink]="['/', 'readings', (sensingNodeType | lowercase), sensingNodeId]"
+                    mat-menu-item>View Readings</button>
             </ng-template>
         </mat-menu>
     </div>
