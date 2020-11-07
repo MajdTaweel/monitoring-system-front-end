@@ -50,6 +50,8 @@ export class SensingNodesMapComponent implements OnInit, OnDestroy {
 
   private infoDiv: HTMLElement;
 
+  private longTouchTimer;
+
   private sensingNodesSubscription: Subscription;
 
   constructor(private sensingNodesService: SensingNodesService) { }
@@ -112,7 +114,9 @@ export class SensingNodesMapComponent implements OnInit, OnDestroy {
       : this.offlineIcon;
     const nodeMarker = marker([sensingNode.latitude, sensingNode.longitude], { icon });
     nodeMarker.bindPopup(`<b>Node Type: </b>${sensingNode.sensingNodeType}<br/><b>Latitude: </b>${sensingNode.latitude}<br/><b>Longitude: </b>${sensingNode.longitude}<br/><b>Battery: </b>${sensingNode.battery}%<br/><button class="btn btn-info">View Readings</button>`);
-    nodeMarker.addEventListener('contextmenu', event => this.showContextMenu(event));
+    nodeMarker.addEventListener('contextmenu', this.showContextMenu.bind(this));
+    nodeMarker.addEventListener('touchstart', this.onTouchStart.bind(this));
+    nodeMarker.addEventListener('touchend', this.onTouchEnd.bind(this))
     return { id: sensingNode.id, marker: nodeMarker };
   }
 
@@ -217,5 +221,23 @@ export class SensingNodesMapComponent implements OnInit, OnDestroy {
       panel.style.top = `${event.containerPoint.y}px`;
     });
     this.trigger.openMenu();
+  }
+
+  private onTouchStart(event: any) {
+    event.preventDefault();
+    if (!this.longTouchTimer) {
+      const onLongTouch = () => {
+        this.longTouchTimer = null;
+        this.showContextMenu(event);
+      };
+      this.longTouchTimer = setTimeout(onLongTouch, 500);
+    }
+  }
+
+  private onTouchEnd() {
+    if (this.longTouchTimer) {
+      clearTimeout(this.longTouchTimer);
+      this.longTouchTimer = null;
+    }
   }
 }
