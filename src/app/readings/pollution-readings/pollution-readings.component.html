@@ -1,22 +1,29 @@
 <!-- <div class="mat-elevation-z8"> -->
 <div class="match-theme">
-    <table mat-table [dataSource]="dataSource" class="w-100">
 
-        <!-- Air Column -->
-        <ng-container matColumnDef="air">
-            <th mat-header-cell *matHeaderCellDef> Air </th>
-            <td mat-cell *matCellDef="let element"> {{ element.air }} </td>
-        </ng-container>
+    <div *ngIf="loading;else table">
+        <mat-spinner class="center"></mat-spinner>
+    </div>
 
-        <!-- Sound Column -->
-        <ng-container matColumnDef="sound">
-            <th mat-header-cell *matHeaderCellDef> Sound </th>
-            <td mat-cell *matCellDef="let element"> {{ element.sound }} </td>
-        </ng-container>
+    <ng-template #table>
+        <table mat-table [dataSource]="dataSource" class="w-100">
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+            <!-- Air Column -->
+            <ng-container matColumnDef="air">
+                <th mat-header-cell *matHeaderCellDef> Air </th>
+                <td mat-cell *matCellDef="let element"> {{ element.air }} </td>
+            </ng-container>
+
+            <!-- Sound Column -->
+            <ng-container matColumnDef="sound">
+                <th mat-header-cell *matHeaderCellDef> Sound </th>
+                <td mat-cell *matCellDef="let element"> {{ element.sound }} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </ng-template>
 
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>

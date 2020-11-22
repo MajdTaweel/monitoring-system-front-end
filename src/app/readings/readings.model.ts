@@ -14,5 +14,5 @@ export class PollutionReadings {
     sound: number;
 }
 
-export const MAGNETOMETER_READINGS_ENDPOINT = `${SENSING_NODE_API_URL}/magnetometer-readings`;
-export const POLLUTION_READINGS_ENDPOINT = `${SENSING_NODE_API_URL}/pollution-readings`;
+export const MAGNETOMETER_READINGS_ENDPOINT = `${SENSING_NODE_API_URL}/magnetometer-readings/by-sensing-node-id`;
+export const POLLUTION_READINGS_ENDPOINT = `${SENSING_NODE_API_URL}/pollution-readings/by-sensing-node-id`;
