@@ -12,6 +12,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [SensingNodesComponent, SensingNodesTableComponent, SensingNodesMapComponent],
@@ -31,6 +32,7 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
     NbIconModule,
     NbEvaIconsModule,
     NbTooltipModule,
+    MatProgressSpinnerModule,
   ]
 })
 export class SensingNodesModule { }

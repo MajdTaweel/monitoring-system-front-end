@@ -17,6 +17,8 @@ export class SensingNodesTableComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  loading = true;
+
   private sensingNodesSubscription: Subscription;
 
   constructor(private sensingNodesService: SensingNodesService) { }
@@ -26,7 +28,10 @@ export class SensingNodesTableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
-    this.sensingNodesSubscription = this.sensingNodesService.getSensingNodes().subscribe(sensingNodes => this.dataSource.data = sensingNodes);
+    this.sensingNodesSubscription = this.sensingNodesService.getSensingNodes().subscribe(sensingNodes => {
+      this.dataSource.data = sensingNodes;
+      this.loading = false;
+    });
   }
 
   ngOnDestroy(): void {
