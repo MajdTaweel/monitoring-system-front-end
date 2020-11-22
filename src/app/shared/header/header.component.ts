@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NbAccessChecker } from '@nebular/security';
 import { NbMenuItem, NbThemeService } from '@nebular/theme';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -44,7 +43,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(private themeService: NbThemeService, private accessChecker: NbAccessChecker) {
     const sub1 = this.themeService.onThemeChange()
-      .subscribe(currentTheme => this.themeIcon = currentTheme?.name === 'default' ? 'moon-outline' : 'moon');
+      .subscribe(currentTheme => this.themeIcon = currentTheme?.name === 'default' ? 'moon' : 'sun-outline');
     const sub2 = this.accessChecker.isGranted('view', 'auth')
       .subscribe(isGranted => this.menuItems.next(isGranted ? [...this.permittedMenuItems, ...this.authMenuItems] : [...this.permittedMenuItems]));
     this.subscriptions.add(sub1);
@@ -58,10 +57,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.themeService.currentTheme === 'default'
       ? this.themeService.changeTheme('dark')
       : this.themeService.changeTheme('default');
-  }
-
-  getThemeButtonIcon(): string {
-    return this.themeService.currentTheme === 'default' ? 'moon-outline' : 'moon';
+    localStorage.setItem('user-theme', this.themeService.currentTheme);
   }
 
   getMenuItems(): Observable<NbMenuItem[]> {
