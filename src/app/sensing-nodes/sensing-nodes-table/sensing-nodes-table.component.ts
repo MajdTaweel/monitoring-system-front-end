@@ -12,7 +12,7 @@ import { SensingNodesService } from '../sensing-nodes.service';
 })
 export class SensingNodesTableComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['sensingNodeType', 'status', 'latitude', 'longitude', 'battery', 'availability'];
+  displayedColumns: string[] = ['sensingNodeType', 'status', 'latitude', 'longitude', 'battery', 'availability', 'actions'];
   dataSource = new MatTableDataSource<SensingNode>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

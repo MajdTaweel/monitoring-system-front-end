@@ -113,7 +113,7 @@ export class SensingNodesMapComponent implements OnInit, OnDestroy {
       )
       : this.offlineIcon;
     const nodeMarker = marker([sensingNode.latitude, sensingNode.longitude], { icon });
-    nodeMarker.bindPopup(`<b>Node Type: </b>${sensingNode.sensingNodeType}<br/><b>Latitude: </b>${sensingNode.latitude}<br/><b>Longitude: </b>${sensingNode.longitude}<br/><b>Battery: </b>${sensingNode.battery}%<br/><button class="btn btn-info">View Readings</button>`);
+    nodeMarker.bindPopup(`<b>Node Type: </b>${sensingNode.sensingNodeType}<br/><b>Latitude: </b>${sensingNode.latitude}<br/><b>Longitude: </b>${sensingNode.longitude}<br/><b>Battery: </b>${sensingNode.battery}%<br/>`);
     nodeMarker.addEventListener('contextmenu', this.showContextMenu.bind(this));
     nodeMarker.addEventListener('touchstart', this.onTouchStart.bind(this));
     nodeMarker.addEventListener('touchend', this.onTouchEnd.bind(this))

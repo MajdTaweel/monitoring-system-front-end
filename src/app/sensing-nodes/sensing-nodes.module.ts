@@ -6,11 +6,12 @@ import { SensingNodesRoutingModule } from './sensing-nodes-routing.module';
 import { SensingNodesComponent } from './sensing-nodes.component';
 import { SensingNodesTableComponent } from './sensing-nodes-table/sensing-nodes-table.component';
 import { SensingNodesMapComponent } from './sensing-nodes-map/sensing-nodes-map.component';
-import { NbCardModule, NbRouteTabsetModule, NbTabsetModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbIconModule, NbRouteTabsetModule, NbTabsetModule, NbThemeModule, NbTooltipModule } from '@nebular/theme';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
 
 @NgModule({
   declarations: [SensingNodesComponent, SensingNodesTableComponent, SensingNodesMapComponent],
@@ -25,6 +26,11 @@ import { MatDialogModule } from '@angular/material/dialog';
     NbRouteTabsetModule,
     MatMenuModule,
     MatDialogModule,
+    NbThemeModule,
+    NbButtonModule,
+    NbIconModule,
+    NbEvaIconsModule,
+    NbTooltipModule,
   ]
 })
 export class SensingNodesModule { }
