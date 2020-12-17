@@ -41,13 +41,21 @@
             <!-- Is Available Column -->
             <ng-container matColumnDef="availability">
                 <th mat-header-cell *matHeaderCellDef> Available </th>
-                <td mat-cell *matCellDef="let element"> {{ element.availability ? 'Yes' : 'No' }} </td>
+                <td mat-cell *matCellDef="let element"> {{ element.status === 'ONLINE' ? element.availability ? 'Yes' : 'No' : 'Unkown' }} </td>
             </ng-container>
 
             <!-- Actions Column -->
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef> Actions </th>
-                <td mat-cell *matCellDef="let element">
+                <td mat-cell *matCellDef="let element" class="d-flex cell-actions">
+                    <button nbButton status="info" nbTooltip="Navigate to Location"
+                        [routerLink]="['/', 'sensing-nodes-monitoring', 'map']"
+                        [queryParams]="{'navigateTo': element.latitude + ',' + element.longitude}">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </button>
+
+                    <div class="m-1"></div>
+
                     <button nbButton status="info" nbTooltip="View Readings"
                         [routerLink]="['/', 'readings', element.sensingNodeType.toLowerCase(), element.id]">
                         <nb-icon icon="file-text"></nb-icon>

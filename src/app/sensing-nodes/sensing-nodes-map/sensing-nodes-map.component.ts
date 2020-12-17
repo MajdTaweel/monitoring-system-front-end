@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { ActivatedRoute } from '@angular/router';
 import { Control, divIcon, DomUtil, latLng, Map, Marker, marker, tileLayer } from 'leaflet';
 import { of, Subscription } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
@@ -54,7 +55,14 @@ export class SensingNodesMapComponent implements OnInit, OnDestroy {
 
   private sensingNodesSubscription: Subscription;
 
-  constructor(private sensingNodesService: SensingNodesService) { }
+  private navigateTo: string;
+
+  constructor(
+    private sensingNodesService: SensingNodesService,
+    private route: ActivatedRoute,
+  ) {
+    this.route.queryParamMap.subscribe(queryParamMap => this.navigateTo = queryParamMap.get('navigateTo'));
+  }
 
   ngOnInit(): void {
     this.addLayers();
@@ -65,6 +73,10 @@ export class SensingNodesMapComponent implements OnInit, OnDestroy {
     this.watchPosition();
     this.addInfo(map);
     this.addLegend(map);
+    if (this.navigateTo?.length) {
+      const [latitude, longitude] = this.navigateTo.split(',');
+      map.setView([+latitude, +longitude], 18);
+    }
   }
 
   onZoomChange(): void {
