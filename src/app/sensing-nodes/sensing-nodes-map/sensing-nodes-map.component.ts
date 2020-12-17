@@ -25,7 +25,7 @@ export class SensingNodesMapComponent implements OnInit, OnDestroy {
           maxNativeZoom: 19,
           // attribution: '...',
           minZoom: 8,
-          bounds: DEFAULT_BOUNDS,
+          // bounds: DEFAULT_BOUNDS,
         }
       )
     ],
