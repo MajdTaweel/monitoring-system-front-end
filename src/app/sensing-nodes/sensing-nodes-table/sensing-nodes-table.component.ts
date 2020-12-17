@@ -28,7 +28,8 @@ export class SensingNodesTableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
-    this.sensingNodesSubscription = this.sensingNodesService.getSensingNodes().subscribe(sensingNodes => {
+    this.sensingNodesSubscription = this.sensingNodesService.getSensingNodesEachNumSeconds(30)
+    .subscribe(sensingNodes => {
       this.dataSource.data = sensingNodes;
       this.loading = false;
     });

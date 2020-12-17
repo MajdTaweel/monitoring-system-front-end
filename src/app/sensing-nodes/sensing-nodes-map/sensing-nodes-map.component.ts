@@ -78,7 +78,7 @@ export class SensingNodesMapComponent implements OnInit, OnDestroy {
   }
 
   private addLayers(): void {
-    this.sensingNodesSubscription = this.sensingNodesService.getSensingNodes()
+    this.sensingNodesSubscription = this.sensingNodesService.getSensingNodesEachNumSeconds(30)
       .pipe(
         tap((sensingNodes: SensingNode[]) => {
           this.updateInfo(sensingNodes);
