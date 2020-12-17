@@ -58,6 +58,18 @@ nb-menu.nb-menu-horizontal {
 }
 
 .match-theme * {
-    background-color: inherit;
-    color: inherit;
+  background-color: inherit;
+  color: inherit;
+}
+
+.rotate-neg-45 {
+  transform: rotate(-45deg);
+}
+
+.location-arrow-marker {
+  border: none;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -43,7 +43,7 @@ export class SensingNodesMapComponent implements OnInit, OnDestroy {
 
   private pollutionIcon = divIcon({ className: 'fas fa-smog text-primary fa-3x' });
 
-  private locationArrowIcon = divIcon({ className: 'fas fa-location-arrow text-primary fa-3x' });
+  private locationArrowIcon = divIcon({ html: '<i class="fas fa-location-arrow text-primary fa-3x rotate-neg-45"></i>', className: 'location-arrow-marker' });
 
   private locationMarker = marker([DEFAULT_LATITUDE, DEFAULT_LONGITUDE], { icon: this.locationArrowIcon });
 
@@ -168,7 +168,7 @@ export class SensingNodesMapComponent implements OnInit, OnDestroy {
 
   private updateLocationMarkerHeading(heading: number): void {
     if (this.locationMarker.getElement()) {
-      this.locationMarker.getElement().style.transform += ` rotate(${(heading || 0) - 45}deg)`;
+      this.locationMarker.getElement().style.transform += ` rotate(${(heading || 0)}deg)`;
     }
   }
 
