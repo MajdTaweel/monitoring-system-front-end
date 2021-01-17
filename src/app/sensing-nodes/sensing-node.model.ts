@@ -5,10 +5,10 @@ export class SensingNode {
     id: number;
     sensingNodeType: SensingNodeType;
     status: Status;
-    latitude: number;
-    longitude: number;
     battery: number;
     availability: boolean;
+    latitude?: number;
+    longitude?: number;
 }
 
 export enum SensingNodeType {
@@ -34,4 +34,4 @@ export const SENSING_NODES_ENDPOINT = `${SENSING_NODE_API_URL}/sensing-nodes`;
 
 export const DEFAULT_LATITUDE = 31.9014;
 export const DEFAULT_LONGITUDE = 35.1999;
-export const DEFAULT_BOUNDS: LatLngBoundsExpression = [[33.291527, 34.217670], [29.481688, 35.578352]];
+export const DEFAULT_BOUNDS: LatLngBoundsExpression = [[32.398454, 35.070573], [31.832988, 35.504083]];
