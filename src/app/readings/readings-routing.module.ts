@@ -14,7 +14,7 @@ const routes: Routes = [
         component: MagnetometerReadingsComponent,
       },
       {
-        path: 'pullution/:sensingNodeId',
+        path: 'pollution/:sensingNodeId',
         component: PollutionReadingsComponent,
       },
     ],
